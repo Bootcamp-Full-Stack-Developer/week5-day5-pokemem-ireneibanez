@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-car.css" />
+    
     <title>Memory Game</title>
-
+    
 </head>
 
 <body>
@@ -21,15 +23,35 @@
                 <div class="counter-moves">
                     <span class="counter-label">Movimientos</span>
                     <div class="counter" id="counter-moves"></div>
-                </div>
-               
+                </div>  
             </div>
+            <div class="counter-wrapper">
+                <div class="counter-time">
+                    <span class="counter-label">Tiempo</span>
+                    <div class="counter" id="counter-time"></div>
+                </div>  
+            </div>
+            <button type="reset" class="btn-reset" id="reset">Reset</button>  
+            <form action="#">
+                <select name="selector" id="selector">
+                    <option value="select">Seleccione un nivel</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+                <button type="button" id="start">Comenzar</button>
+
+            </form>          
             
-
         </div>
-
+        
     </div>
-
+    <script src="https://raw.githubusercontent.com/HubSpot/odometer/v0.4.6/odometer.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous">
     </script>
