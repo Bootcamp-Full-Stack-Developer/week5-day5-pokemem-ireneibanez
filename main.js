@@ -1,4 +1,3 @@
-
 /*
 Es un array que contiene en cada posición el id de la carta. Su longitud será el doble
 que el número de cartas distintas en el juego. Por ejemplo en el caso de 2 cartas distintas
@@ -14,6 +13,8 @@ let selectedCard = null;
 let moves = 0;
 // Numero de parejas encontradas
 let findedPairs = 0;
+// Contador de segundos
+let seconds = 0;
 
 // Este método inicializa de forma aleatoria las cartas para que despues se puedan mostrar.
 function initCards() {
@@ -27,12 +28,23 @@ function initCards() {
         cards[posResult] = indexPair;
     }
 
-
 }
 
 // Este método pintará las cartas según la disposición en el array cards
+
 function paintCards() {
-    
+    for (let i = 0; i < cards.length; i++) {
+        let element = generateHtmlCard(cards[i]);
+        $('.board').append(element);
+    }
+
+    $('.card').on('click', function (event) {
+        if (!$(this).hasClass('active') && !$(this).hasClass('finded')) {
+            $(this).addClass('active');
+            console.log($(this).data('value'));
+            selectCard($(this));
+        }
+    });
 }
 
 /*
@@ -64,12 +76,34 @@ function hasFinishedGame() {
 }
 
 // Este método tendra la logica a ejecutar cuando el juego finalice
+
 function finishGame() {
-   
+    $(".popup-win").addClass("show");
 }
 
 // Este método contendrá la lógica cuando se pincha en una carta.
-function selectCard() {
+function selectCard(card) {
+
+    if (selectedCard === null) {
+        selectedCard = card;
+        return;
+    }
+
+    if (selectedCard.data('value') === card.data('value')) {
+        findedPairs++;
+        moves++;
+        selectedCard.addClass('finded');
+        card.addClass('finded');
+        selectedCard = null;
+    } else {
+        selectedCard.removeClass('active');
+        card.removeClass('active');
+        moves++;
+        selectedCard = null;
+    }
+
+    $('#counter-moves').text(moves);
+
     // Aqui tendremos el código de mostrar la carta, si ya teniamos una seleccionada chequear si 
     // iguales y realizar las acciones necesarias en el caso de que lo sean o no lo sean.
 
@@ -83,6 +117,7 @@ function initCounters() {
     selectedCard = null;
     moves = 0;
     findedPairs = 0;
+    seconds = 0;
 }
 
 function startGame(level) {
@@ -95,5 +130,59 @@ function startGame(level) {
 
 
 $(document).ready(function () {
-   startGame(numPairs);
+    startGame(numPairs);
+    $('#counter-moves').addClass('odometer');
+    $('#counter-moves').text(moves);
+    $('#counter-time').addClass('odometer');
+    $('#counter-time').text(seconds);
+    window.setInterval(function () {
+        seconds++;
+        $('#counter-time').text(seconds);
+    }, 1000);
+    
+    $('#reset').on('click', function () {
+        $('.board').empty();
+        startGame(numPairs);
+        $('#counter-moves').text(moves);
+    });
+    $('#start').on('click', function () {
+        $('.board').empty();
+        startGame(numPairs);
+        $('#counter-moves').text(moves);
+    });
 });
+
+
+
+$('#selector').change(function() {
+    
+    switch($('#selector option:selected').val()) {
+        case '2':
+            numPairs = 2;       
+            break;
+        case '3':
+            numPairs = 3;
+            break;
+        case '4':
+            numPairs = 4;
+            break;
+        case '5':
+            numPairs = 5;
+            break;
+        case '6':
+            numPairs = 6;
+            break;
+        case '7':
+            numPairs = 7;
+            break;    
+        case '8':
+            numPairs = 8;
+            break;
+        case '9':
+            numPairs = 9;
+            break;
+        default:
+            numPairs = 4;    
+    }
+});
+
